@@ -1,6 +1,6 @@
 import logging
 import json
-import urllib2
+from urllib.error import HTTPError
 import traceback
 
 from ckan.model import Session
@@ -15,8 +15,8 @@ from ckanext.harvest.model import HarvestObject
 import oaipmh.client
 from oaipmh.metadata import MetadataRegistry
 
-from metadata import oai_ddi_reader
-from metadata import oai_dc_reader
+from ckanext.oaipmh.metadata import oai_ddi_reader
+from ckanext.oaipmh.metadata import oai_dc_reader
 
 log = logging.getLogger(__name__)
 
@@ -72,7 +72,7 @@ class OaipmhHarvester(HarvesterBase):
                 harvest_obj.save()
                 harvest_obj_ids.append(harvest_obj.id)
                 log.debug("Harvest obj %s created" % harvest_obj.id)
-        except urllib2.HTTPError, e:
+        except (HTTPError) as e:
             log.exception(
                 'Gather stage failed on %s (%s): %s, %s'
                 % (
@@ -87,7 +87,7 @@ class OaipmhHarvester(HarvesterBase):
                 harvest_job.source.url, harvest_job
             )
             return None
-        except Exception, e:
+        except (Exception) as e:
             log.exception(
                 'Gather stage failed on %s: %s'
                 % (
@@ -219,7 +219,7 @@ class OaipmhHarvester(HarvesterBase):
 
             harvest_object.content = content
             harvest_object.save()
-        except Exception, e:
+        except (Exception) as e:
             log.exception(e)
             self._save_object_error(
                 (
@@ -339,13 +339,14 @@ class OaipmhHarvester(HarvesterBase):
             log.debug('Create/update package using dict: %s' % package_dict)
             self._create_or_update_package(
                 package_dict,
-                harvest_object
+                harvest_object,
+                'package_show'
             )
 
             Session.commit()
 
             log.debug("Finished record")
-        except Exception, e:
+        except (Exception) as e:
             log.exception(e)
             self._save_object_error(
                 (
