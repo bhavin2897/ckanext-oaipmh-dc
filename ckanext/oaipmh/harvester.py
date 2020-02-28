@@ -280,7 +280,7 @@ class OaipmhHarvester(HarvesterBase):
 
             mapping = self._get_mapping()
 
-            for ckan_field, oai_field in mapping.iteritems():
+            for ckan_field, oai_field in mapping.items():
                 try:
                     package_dict[ckan_field] = content[oai_field][0]
                 except (IndexError, KeyError):
@@ -376,7 +376,7 @@ class OaipmhHarvester(HarvesterBase):
     def _extract_tags_and_extras(self, content):
         extras = []
         tags = []
-        for key, value in content.iteritems():
+        for key, value in content.items():
             if key in self._get_mapping().values():
                 continue
             if key in ['type', 'subject']:
