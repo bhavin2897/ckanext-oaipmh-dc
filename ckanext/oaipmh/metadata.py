@@ -47,5 +47,5 @@ oai_dc_reader = MetadataReader(
     namespaces={
     'oai_dc': 'http://www.openarchives.org/OAI/2.0/oai_dc/',
     'oai': 'http://www.openarchives.org/OAI/2.0/',
-    'dc': 'http://purl.org/dc/elements/1.1/'}
+    'dc': 'https://purl.org/dc/elements/1.1/'}
 )
