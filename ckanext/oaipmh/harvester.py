@@ -10,6 +10,7 @@ from ckan import model
 from ckanext.harvest.harvesters.base import HarvesterBase
 from ckan.lib.munge import munge_tag
 from ckan.lib.munge import munge_title_to_name
+from ckan.lib.search import rebuild
 from ckanext.harvest.model import HarvestObject
 
 import oaipmh.client
@@ -342,7 +343,7 @@ class OaipmhHarvester(HarvesterBase):
                 harvest_object,
                 'package_show'
             )
-
+            rebuild(package_dict["name"])
             Session.commit()
 
             log.debug("Finished record")
