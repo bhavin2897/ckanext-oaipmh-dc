@@ -318,6 +318,8 @@ class OaipmhHarvester(HarvesterBase):
             if content['set_spec']:
                 log.debug('set_spec: %s' % content['set_spec'])
                 groups.extend(
+                    {"id": group_id}
+                    for group_id in
                     self._find_or_create_groups(
                         content['set_spec'],
                         context.copy()
@@ -326,6 +328,8 @@ class OaipmhHarvester(HarvesterBase):
 
             # add groups from content
             groups.extend(
+                {"id": group_id}
+                for group_id in
                 self._extract_groups(content, context.copy())
             )
 
@@ -399,8 +403,7 @@ class OaipmhHarvester(HarvesterBase):
                     value = date_without_tz.isoformat()
                 except (ValueError, TypeError):
                     continue
-
-            extras.append((key, value))
+            extras.append({"key": key, "value": value})
 
         tags = [munge_tag(tag[:100]) for tag in tags]
 
@@ -418,7 +421,7 @@ class OaipmhHarvester(HarvesterBase):
 
     def _extract_resources(self, url, content):
         resources = []
-        log.debug('URL of ressource: %s' % url)
+        log.debug('URL of resource: %s' % url)
         if url:
             try:
                 resource_format = content['format'][0]
