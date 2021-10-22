@@ -175,6 +175,7 @@ class OaipmhHarvester(HarvesterBase):
                 )
 
                 self._before_record_fetch(harvest_object)
+
                 record = client.getRecord(
                     identifier=harvest_object.guid,
                     metadataPrefix=self.md_format,
@@ -272,7 +273,6 @@ class OaipmhHarvester(HarvesterBase):
             package_dict["name"] = package_dict["id"]
 
             mapping = self._get_mapping()
-
             for ckan_field, oai_field in mapping.items():
                 try:
                     package_dict[ckan_field] = content[oai_field][0]
@@ -389,7 +389,7 @@ class OaipmhHarvester(HarvesterBase):
                     continue
             extras.append({"key": key, "value": value})
 
-        tags = [munge_tag(tag[:100]) for tag in tags]
+        tags = [{"name": munge_tag(tag[:100])} for tag in tags]
 
         return (tags, extras)
 
