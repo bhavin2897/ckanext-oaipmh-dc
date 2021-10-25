@@ -69,9 +69,14 @@ class OaipmhHarvester(HarvesterBase):
                 harvest_obj = HarvestObject(
                     guid=header.identifier(), job=harvest_job
                 )
+                # TODO: drop
+                # if harvest_obj.guid != '10.14272/VIZKKYMOUGQEKZ-UHFFFAOYSA-L.1':
+                    # continue
                 harvest_obj.save()
                 harvest_obj_ids.append(harvest_obj.id)
                 log.debug("Harvest obj %s created" % harvest_obj.id)
+                # TODO: drop
+                # return harvest_obj_ids
         except (HTTPError) as e:
             log.exception(
                 "Gather stage failed on %s (%s): %s, %s"
@@ -191,9 +196,9 @@ class OaipmhHarvester(HarvesterBase):
                 return False
 
             header, metadata, _ = record
-            log.debug("metadata %s" % metadata)
-            log.debug("header %s" % header)
-
+            # TODO: drop
+            # from lxml.etree import dump
+            # breakpoint()
             try:
                 metadata_modified = header.datestamp().isoformat()
             except:
