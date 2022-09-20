@@ -421,6 +421,10 @@ class OaipmhHarvester(HarvesterBase):
             if ident.startswith("http://") or ident.startswith("https://"):
                 url = ident
                 break
+            elif ident.startswith("10."):
+                url = "https://doi.org/" + ident
+                break
+                
         return url
 
     def _extract_resources(self, url, content):
