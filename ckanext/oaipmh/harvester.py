@@ -372,10 +372,10 @@ class OaipmhHarvester(HarvesterBase):
 
             if content_license == license_name['id'] or content_license ==license_name['url'] or content_license == license_name['title']:
                 package_license = license_name['id']
-            elif content_license.startswith("CC BY-NC-SA 4.0"):
-                package_license = license_name[2] 
-            elif content_license.startswith("CC BY 4.0"):
-                 package_license = license_name[1]
+            elif content_license.startswith("CC BY-NC-SA 4.0") and license_name['id'] == "CC-BY-NC-SA-4.0":
+                package_license = license_name['id'] 
+            elif content_license.startswith("CC BY 4.0") and license_name['id'] == "CC-BY-4.0":
+                 package_license = license_name['id']
 
         return package_license
     
