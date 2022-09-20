@@ -363,8 +363,19 @@ class OaipmhHarvester(HarvesterBase):
     def _extract_author(self, content):
         return ", ".join(content["creator"])
 
-    def _extract_license_id(self, content):
-        return ", ".join(content["rights"])
+    def _extract_license_id(self, context,content):
+        
+        package_license = None
+        content_license = ", ".join(content["rights"])
+        license_list = get_action('license_list')(context.copy(),{})
+        for license_name in license_list:
+
+            if content_license == license_name['id'] or content_license ==license_name['url'] or content_license == license_name['title']:
+                package_license = license_name['id']
+
+        return package_license
+    
+     
 
     def _extract_tags_and_extras(self, content):
         extras = []
