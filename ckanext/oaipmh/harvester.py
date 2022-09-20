@@ -33,7 +33,7 @@ class OaipmhHarvester(HarvesterBase):
         """
         return {
             "name": "oai_pmh",
-            "title": "OAI-PMH Harvester",
+            "title": "Dublin Core Harvester",
             "description": "Harvester for OAI-PMH data sources",
         }
 
