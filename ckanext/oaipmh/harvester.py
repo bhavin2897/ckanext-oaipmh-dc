@@ -295,7 +295,7 @@ class OaipmhHarvester(HarvesterBase):
             package_dict["owner_org"] = owner_org
 
             # add license
-            package_dict["license_id"] = self._extract_license_id(content)
+            package_dict["license_id"] = self._extract_license_id(context=context,content=content)
 
             # add resources
             url = self._get_possible_resource(harvest_object, content)
