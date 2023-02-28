@@ -22,7 +22,7 @@ from ckanext.oaipmh.metadata import oai_dc_reader
 log = logging.getLogger(__name__)
 
 
-class OaipmhHarvester(HarvesterBase):
+class OaipmhDCHarvester(HarvesterBase):
     """
     OAI-PMH Harvester
     """
