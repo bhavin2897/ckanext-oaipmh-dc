@@ -24,6 +24,6 @@ setup(
     entry_points=\
     """
     [ckan.plugins]
-    oaipmh_dc_harvester=ckanext.oaipmh.harvester:OaipmhDCHarvester
+    oaipmh_dc_harvester=ckanext.oaipmh_dc.harvester:OaipmhDCHarvester
     """,
 )
