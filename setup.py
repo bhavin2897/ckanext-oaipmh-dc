@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.1'
+version = '1.1'
 
 setup(
-    name='ckanext-oaipmh',
+    name='ckanext-oaipmh-dc',
     version=version,
-    description="OAI-PMH Harvester for CKAN",
+    description="OAI-PMH Harvester for Dublin Core Metadata",
     long_description="",
     classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     keywords='',
@@ -24,6 +24,6 @@ setup(
     entry_points=\
     """
     [ckan.plugins]
-    oaipmh_dc_harvester=ckanext.oaipmh.harvester:OaipmhHarvester
+    oaipmh_dc_harvester=ckanext.oaipmh.harvester:OaipmhDCHarvester
     """,
 )
