@@ -24,7 +24,7 @@ log = logging.getLogger(__name__)
 
 class OaipmhDCHarvester(HarvesterBase):
     """
-    OAI-PMH Harvester
+    OAI-PMH Harvester for Dublin Core only data repositories. 
     """
 
     def info(self):
