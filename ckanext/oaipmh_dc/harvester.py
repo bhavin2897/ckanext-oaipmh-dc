@@ -112,14 +112,21 @@ class OaipmhDCHarvester(HarvesterBase):
         pyoai generates the URL based on the given method parameters
         Therefore one may not use the set parameter if it is not there
         """
-        if self.set_spec:
-            for header in client.listIdentifiers(
-                metadataPrefix=self.md_format, set=self.set_spec
-            ):
+        if self.set_from or self.set_until:
+            for header in client.listIdentifiers(metadataPrefix=self.md_format, set=self.set_spec,
+                                                 from_=datetime.strptime(self.set_from, "%Y-%m-%dT%H:%M:%SZ"),
+                                                 until=datetime.strptime(self.set_until, "%Y-%m-%dT%H:%M:%SZ")):
                 yield header
+
+        elif self.set_spec:
+            for header in client.listIdentifiers(metadataPrefix=self.md_format, set=self.set_spec,
+                                                 from_=datetime.strptime(self.set_from, "%Y-%m-%dT%H:%M:%SZ"),
+                                                 until=datetime.strptime(self.set_until, "%Y-%m-%dT%H:%M:%SZ")):
+                yield header
+
         else:
             for header in client.listIdentifiers(
-                metadataPrefix=self.md_format
+                    metadataPrefix=self.md_format
             ):
                 yield header
 
@@ -130,6 +137,13 @@ class OaipmhDCHarvester(HarvesterBase):
         return registry
 
     def _set_config(self, source_config):
+        now = datetime.now()
+        default = now - timedelta(days=180)
+        daily = now - timedelta(days=1)
+        weekly = now - timedelta(days=5)
+        monthly = now - timedelta(days=30)
+        biweekly = now - timedelta(days=14)
+
         try:
             config_json = json.loads(source_config)
             log.debug("config_json: %s" % config_json)
@@ -144,6 +158,25 @@ class OaipmhDCHarvester(HarvesterBase):
             self.set_spec = config_json.get("set", None)
             self.md_format = config_json.get("metadata_prefix", "oai_dc")
             self.force_http_get = config_json.get("force_http_get", False)
+
+            if frequency == 'DAILY':
+                self.set_from = config_json.get("from", str(daily.strftime("%Y-%m-%dT%H:%M:%SZ")))
+
+            elif frequency == 'WEEKLY':
+                self.set_from = config_json.get("from", str(weekly.strftime("%Y-%m-%dT%H:%M:%SZ")))
+
+            elif frequency == 'MONTHLY':
+                self.set_from = config_json.get("from", str(monthly.strftime("%Y-%m-%dT%H:%M:%SZ")))
+
+            elif frequency == 'BIWEEKLY':
+                self.set_from = config_json.get("from", str(biweekly.strftime("%Y-%m-%dT%H:%M:%SZ")))
+
+            else:
+                self.set_from = config_json.get("from", str(default.strftime("%Y-%m-%dT%H:%M:%SZ")))
+
+            self.set_until = config_json.get("until", str(now.strftime("%Y-%m-%dT%H:%M:%SZ")))
+            log.debug(f"passed from {self.set_from}")
+            log.debug(f"passed  until {self.set_until}")
 
         except ValueError:
             pass
