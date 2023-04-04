@@ -55,10 +55,12 @@ class OaipmhDCHarvester(HarvesterBase):
         :returns: A list of HarvestObject ids
         """
         log.debug("in gather stage: %s" % harvest_job.source.url)
+        log.debug("with updating frequency: %s" % harvest_job.source.frequency)
+
         try:
             harvest_obj_ids = []
             registry = self._create_metadata_registry()
-            self._set_config(harvest_job.source.config)
+            self._set_config(harvest_job.source.config,harvest_job.source.frequency)
             client = oaipmh.client.Client(
                 harvest_job.source.url,
                 registry,
@@ -138,7 +140,7 @@ class OaipmhDCHarvester(HarvesterBase):
         registry.registerReader("oai_ddi", oai_ddi_reader)
         return registry
 
-    def _set_config(self, source_config):
+    def _set_config(self, source_config, frequency):
         now = datetime.now()
         default = now - timedelta(days=180)
         daily = now - timedelta(days=1)
@@ -199,7 +201,7 @@ class OaipmhDCHarvester(HarvesterBase):
         """
         log.debug("in fetch stage: %s" % harvest_object.guid)
         try:
-            self._set_config(harvest_object.job.source.config)
+            self._set_config(harvest_object.job.source.config,harvest_object.job.source.frequency)
             registry = self._create_metadata_registry()
             client = oaipmh.client.Client(
                 harvest_object.job.source.url,
@@ -297,7 +299,7 @@ class OaipmhDCHarvester(HarvesterBase):
             return False
 
         try:
-            self._set_config(harvest_object.job.source.config)
+            self._set_config(harvest_object.job.source.config,harvest_object.job.source.frequency)
             context = {
                 "model": model,
                 "session": Session,
