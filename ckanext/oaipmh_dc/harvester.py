@@ -34,9 +34,9 @@ class OaipmhDCHarvester(HarvesterBase):
         Return information about this harvester.
         """
         return {
-            "name": "oai_pmh",
+            "name": "oai_pmh_dc",
             "title": "Dublin Core Harvester",
-            "description": "Harvester for OAI-PMH data sources",
+            "description": "Harvester for OAI-PMH Dublin Core data source",
         }
 
     def gather_stage(self, harvest_job):
