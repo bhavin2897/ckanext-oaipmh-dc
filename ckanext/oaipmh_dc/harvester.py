@@ -504,7 +504,8 @@ class OaipmhDCHarvester(HarvesterBase):
             try:
                 group = get_action("group_show")(context.copy(), data_dict)
                 log.info("found the group " + group["id"])
-            except:
+            except RuntimeError as e:
+                log.error(e)
                 group = get_action("group_create")(context.copy(), data_dict)
                 log.info("created the group " + group["id"])
             group_ids.append(group["id"])
