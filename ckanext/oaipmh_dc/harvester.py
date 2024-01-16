@@ -56,11 +56,12 @@ class OaipmhDCHarvester(HarvesterBase):
         """
         log.debug("in gather stage: %s" % harvest_job.source.url)
         log.debug("with updating frequency: %s" % harvest_job.source.frequency)
+        log.debug("This is OAI PMH DC Harvester ")
 
         try:
             harvest_obj_ids = []
             registry = self._create_metadata_registry()
-            self._set_config(harvest_job.source.config,harvest_job.source.frequency)
+            self._set_config(harvest_job.source.config, harvest_job.source.frequency)
             client = oaipmh.client.Client(
                 harvest_job.source.url,
                 registry,
@@ -75,7 +76,7 @@ class OaipmhDCHarvester(HarvesterBase):
                 )
                 # TODO: drop
                 # if harvest_obj.guid != '10.14272/VIZKKYMOUGQEKZ-UHFFFAOYSA-L.1':
-                    # continue
+                # continue
                 harvest_obj.save()
                 harvest_obj_ids.append(harvest_obj.id)
                 log.debug("Harvest obj %s created" % harvest_obj.id)
@@ -201,7 +202,7 @@ class OaipmhDCHarvester(HarvesterBase):
         """
         log.debug("in fetch stage: %s" % harvest_object.guid)
         try:
-            self._set_config(harvest_object.job.source.config,harvest_object.job.source.frequency)
+            self._set_config(harvest_object.job.source.config, harvest_object.job.source.frequency)
             registry = self._create_metadata_registry()
             client = oaipmh.client.Client(
                 harvest_object.job.source.url,
@@ -299,7 +300,7 @@ class OaipmhDCHarvester(HarvesterBase):
             return False
 
         try:
-            self._set_config(harvest_object.job.source.config,harvest_object.job.source.frequency)
+            self._set_config(harvest_object.job.source.config, harvest_object.job.source.frequency)
             context = {
                 "model": model,
                 "session": Session,
@@ -332,7 +333,7 @@ class OaipmhDCHarvester(HarvesterBase):
             package_dict["owner_org"] = owner_org
 
             # add license
-            package_dict["license_id"] = self._extract_license_id(context=context,content=content)
+            package_dict["license_id"] = self._extract_license_id(context=context, content=content)
 
             # add resources
             url = self._get_possible_resource(harvest_object, content)
@@ -400,23 +401,22 @@ class OaipmhDCHarvester(HarvesterBase):
     def _extract_author(self, content):
         return ", ".join(content["creator"])
 
-    def _extract_license_id(self, context,content):
-        
+    def _extract_license_id(self, context, content):
+
         package_license = None
         content_license = ", ".join(content["rights"])
-        license_list = get_action('license_list')(context.copy(),{})
+        license_list = get_action('license_list')(context.copy(), {})
         for license_name in license_list:
 
-            if content_license == license_name['id'] or content_license ==license_name['url'] or content_license == license_name['title']:
+            if content_license == license_name['id'] or content_license == license_name['url'] or content_license == \
+                    license_name['title']:
                 package_license = license_name['id']
             elif content_license.startswith("CC BY-NC-SA 4.0") and license_name['id'] == "CC-BY-NC-SA-4.0":
-                package_license = license_name['id'] 
+                package_license = license_name['id']
             elif content_license.startswith("CC BY 4.0") and license_name['id'] == "CC-BY-4.0":
-                 package_license = license_name['id']
+                package_license = license_name['id']
 
         return package_license
-    
-     
 
     def _extract_tags_and_extras(self, content):
         extras = []
@@ -461,7 +461,7 @@ class OaipmhDCHarvester(HarvesterBase):
             elif ident.startswith("10."):
                 url = "https://doi.org/" + ident
                 break
-                
+
         return url
 
     def _extract_resources(self, url, content):

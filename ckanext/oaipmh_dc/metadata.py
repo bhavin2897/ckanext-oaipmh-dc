@@ -91,6 +91,7 @@ oai_dc_reader = MetadataReader(
         "relation": ("textList", "oai_dc:dc/dc:relation/text()"),  # noqa
         "coverage": ("textList", "oai_dc:dc/dc:coverage/text()"),  # noqa
         "rights": ("textList", "oai_dc:dc/dc:rights/text()"),  # noqa
+
     },
     namespaces={
         "oai_dc": "http://www.openarchives.org/OAI/2.0/oai_dc/",
