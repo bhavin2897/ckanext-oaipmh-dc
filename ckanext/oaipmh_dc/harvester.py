@@ -337,6 +337,7 @@ class OaipmhDCHarvester(HarvesterBase):
             package_dict["language"] = content['language']
 
             package_dict["metadata_modified"] = content['metadata_modified']
+            package_dict["measurement_technique"] = content['source']
 
 
             # add license
@@ -419,7 +420,6 @@ class OaipmhDCHarvester(HarvesterBase):
         license_list = get_action('license_list')(context.copy(), {})
         log.debug(f'Here is the license {content_license[1]}')
         for license_name in license_list:
-
             if content_license[1] == license_name['id'] or content_license[1] == license_name['url'] or content_license[1] == \
                     license_name['title']:
                 package_license = license_name['id']
