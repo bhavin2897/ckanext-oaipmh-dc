@@ -405,6 +405,7 @@ class OaipmhDCHarvester(HarvesterBase):
             "maintainer_email": "maintainer_email",
             "url": "source",
             "language": "language",
+            "metadata_modified": "metadata_modified"
 
         }
 
