@@ -333,7 +333,7 @@ class OaipmhDCHarvester(HarvesterBase):
             package_dict["owner_org"] = owner_org
 
             # doi
-            package_dict["doi"] = content['identifier']
+            package_dict["doi"] = content['identifier'].translate(None,"{}")
             package_dict["language"] = content['language']
 
             package_dict["metadata_modified"] = content['metadata_modified']
@@ -351,7 +351,7 @@ class OaipmhDCHarvester(HarvesterBase):
             tags, extras = self._extract_tags_and_extras(content)
             package_dict["tags"] = tags
             log.debug("LINE 353: Extras are excluded ")
-            # package_dict["extras"] = extras
+            package_dict["extras"] = extras
 
             # groups aka projects
             groups = []
