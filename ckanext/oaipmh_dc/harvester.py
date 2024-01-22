@@ -350,6 +350,7 @@ class OaipmhDCHarvester(HarvesterBase):
             # everything else is added as extra field
             tags, extras = self._extract_tags_and_extras(content)
             package_dict["tags"] = tags
+            log.debug("LINE 353: Extras are excluded ")
             # package_dict["extras"] = extras
 
             # groups aka projects
@@ -404,7 +405,8 @@ class OaipmhDCHarvester(HarvesterBase):
             "maintainer": "publisher",
             "maintainer_email": "maintainer_email",
             "url": "source",
-            "language": "language"
+            "language": "language",
+
         }
 
     def _extract_author(self, content):
