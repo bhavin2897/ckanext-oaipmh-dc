@@ -350,7 +350,6 @@ class OaipmhDCHarvester(HarvesterBase):
             # everything else is added as extra field
             tags, extras = self._extract_tags_and_extras(content)
             package_dict["tags"] = tags
-            log.debug("LINE 353: Extras are excluded ")
             package_dict["extras"] = extras
 
             # groups aka projects
@@ -417,6 +416,7 @@ class OaipmhDCHarvester(HarvesterBase):
         package_license = None
         content_license = ", ".join(content["rights"])
         license_list = get_action('license_list')(context.copy(), {})
+        log.debug(content_license)
         for license_name in license_list:
 
             if content_license == license_name['id'] or content_license == license_name['url'] or content_license == \
