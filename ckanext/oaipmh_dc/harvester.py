@@ -350,7 +350,7 @@ class OaipmhDCHarvester(HarvesterBase):
             # everything else is added as extra field
             tags, extras = self._extract_tags_and_extras(content)
             package_dict["tags"] = tags
-            package_dict["extras"] = extras
+            # package_dict["extras"] = extras
 
             # groups aka projects
             groups = []
@@ -374,9 +374,9 @@ class OaipmhDCHarvester(HarvesterBase):
             package_dict["groups"] = groups
 
             # allow sub-classes to add additional fields
-            package_dict = self._extract_additional_fields(
-                content, package_dict
-            )
+            #package_dict = self._extract_additional_fields(
+            #    content, package_dict
+            #)
 
             log.debug("Create/update package using dict: %s" % package_dict)
             self._create_or_update_package(
