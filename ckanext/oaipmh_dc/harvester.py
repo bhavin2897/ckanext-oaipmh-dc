@@ -74,14 +74,11 @@ class OaipmhDCHarvester(HarvesterBase):
                 harvest_obj = HarvestObject(
                     guid=header.identifier(), job=harvest_job
                 )
-                # TODO: drop
-                # if harvest_obj.guid != '10.14272/VIZKKYMOUGQEKZ-UHFFFAOYSA-L.1':
-                # continue
+
                 harvest_obj.save()
                 harvest_obj_ids.append(harvest_obj.id)
                 log.debug("Harvest obj %s created" % harvest_obj.id)
-                # TODO: drop
-                # return harvest_obj_ids
+
         except (HTTPError) as e:
             log.exception(
                 "Gather stage failed on %s (%s): %s, %s"
@@ -234,9 +231,7 @@ class OaipmhDCHarvester(HarvesterBase):
                 return False
 
             header, metadata, _ = record
-            # TODO: drop
-            # from lxml.etree import dump
-            # breakpoint()
+
             try:
                 metadata_modified = header.datestamp().isoformat()
             except:
@@ -339,7 +334,6 @@ class OaipmhDCHarvester(HarvesterBase):
             package_dict["metadata_modified"] = content['metadata_modified']
             package_dict["measurement_technique"] = content['source']
 
-
             # add license
             package_dict["license_id"] = self._extract_license_id(context=context, content=content)
 
@@ -374,11 +368,6 @@ class OaipmhDCHarvester(HarvesterBase):
 
             package_dict["groups"] = groups
 
-            # allow sub-classes to add additional fields
-            #package_dict = self._extract_additional_fields(
-            #    content, package_dict
-            #)
-
             log.debug("Create/update package using dict: %s" % package_dict)
             self._create_or_update_package(
                 package_dict, harvest_object, "package_show"
@@ -388,7 +377,7 @@ class OaipmhDCHarvester(HarvesterBase):
 
             log.debug("Finished record")
 
-        except (Exception) as e:
+        except Exception as e:
             log.exception(e)
             self._save_object_error(
                 "Exception in fetch stage for %s: %r / %s"
@@ -413,7 +402,6 @@ class OaipmhDCHarvester(HarvesterBase):
         return ", ".join(content["creator"])
 
     def _extract_license_id(self, context, content):
-
         package_license = None
         content_license = content["rights"]
         license_list = get_action('license_list')(context.copy(), {})
