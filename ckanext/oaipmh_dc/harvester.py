@@ -332,6 +332,13 @@ class OaipmhDCHarvester(HarvesterBase):
             owner_org = source_dataset.get("owner_org")
             package_dict["owner_org"] = owner_org
 
+            # doi
+            package_dict["doi"] = content['identifier']
+            package_dict["language"] = content['language']
+
+            package_dict["metadata_modified"] = content['metadata_modified']
+
+
             # add license
             package_dict["license_id"] = self._extract_license_id(context=context, content=content)
 
@@ -379,6 +386,7 @@ class OaipmhDCHarvester(HarvesterBase):
             Session.commit()
 
             log.debug("Finished record")
+
         except (Exception) as e:
             log.exception(e)
             self._save_object_error(
@@ -396,8 +404,6 @@ class OaipmhDCHarvester(HarvesterBase):
             "maintainer": "publisher",
             "maintainer_email": "maintainer_email",
             "url": "source",
-            "metadata_modified": "metadata_modified",
-            "language": "language",
         }
 
     def _extract_author(self, content):
