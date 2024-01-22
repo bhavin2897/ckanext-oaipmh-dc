@@ -333,8 +333,8 @@ class OaipmhDCHarvester(HarvesterBase):
             package_dict["owner_org"] = owner_org
 
             # doi
-            package_dict["doi"] = content['identifier'].translate(None,"{}")
-            package_dict["language"] = content['language']
+            package_dict["doi"] = content['identifier'][0]
+            package_dict["language"] = content['language'][0]
 
             package_dict["metadata_modified"] = content['metadata_modified']
 
