@@ -334,7 +334,7 @@ class OaipmhDCHarvester(HarvesterBase):
 
             # doi
             package_dict["doi"] = content['identifier'][0]
-            package_dict["language"] = content['language'][0]
+            package_dict["language"] = content['language']
 
             package_dict["metadata_modified"] = content['metadata_modified']
 
