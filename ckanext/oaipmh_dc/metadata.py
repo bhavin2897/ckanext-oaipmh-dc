@@ -90,7 +90,8 @@ oai_dc_reader = MetadataReader(
         "language": ("textList", "oai_dc:dc/dc:language/text()"),  # noqa
         "relation": ("textList", "oai_dc:dc/dc:relation/text()"),  # noqa
         "coverage": ("textList", "oai_dc:dc/dc:coverage/text()"),  # noqa
-        "rights": ("textList", "oai_dc:dc/dc:rights/text()"),  # noqa
+        "rights": ("textList", "oai_dc:dc/dc:rights/text()"),
+        "metadata_modified" : ("textList", "oai_dc:dc/dc:metadata_modified/text()")# noqa
 
     },
     namespaces={
