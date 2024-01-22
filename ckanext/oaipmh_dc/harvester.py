@@ -414,9 +414,9 @@ class OaipmhDCHarvester(HarvesterBase):
     def _extract_license_id(self, context, content):
 
         package_license = None
-        content_license = [content["rights"]]
+        content_license = content["rights"]
         license_list = get_action('license_list')(context.copy(), {})
-        log.debug(f'Here is the license {content_license}')
+        log.debug(f'Here is the license {content_license[0]}')
         for license_name in license_list:
 
             if content_license[1] == license_name['id'] or content_license == license_name['url'] or content_license == \
