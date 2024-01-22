@@ -416,10 +416,10 @@ class OaipmhDCHarvester(HarvesterBase):
         package_license = None
         content_license = content["rights"]
         license_list = get_action('license_list')(context.copy(), {})
-        log.debug(f'Here is the license {content_license[0]}')
+        log.debug(f'Here is the license {content_license[1]}')
         for license_name in license_list:
 
-            if content_license[1] == license_name['id'] or content_license == license_name['url'] or content_license == \
+            if content_license[1] == license_name['id'] or content_license[1] == license_name['url'] or content_license[1] == \
                     license_name['title']:
                 package_license = license_name['id']
             elif content_license[1].startswith("CC BY-NC-SA 4.0") and license_name['id'] == "CC-BY-NC-SA-4.0":
